@@ -39,6 +39,14 @@ class Board:
             if (self.boardList[i] == 0):
                 emptySquareInds.append(i)
         return emptySquareInds
+    
+    def index2D_to_1D(self, row, col):
+        return row * self.vars.BOARD_COLS + col
+    
+    def index1D_to_2D(self, index):
+        row = index // self.vars.BOARD_COLS
+        col = index % self.vars.BOARD_COLS
+        return (row, col)
 
     
     

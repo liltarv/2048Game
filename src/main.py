@@ -21,6 +21,8 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:  # ✅ handles close button 
             running = False
+        elif event.type == pygame.KEYDOWN:  
+            game.handleKeyBoardInput(event)
             
     game.visualizer.draw()
     game.reporter.report()
