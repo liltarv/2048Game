@@ -1,4 +1,5 @@
 import pygame
+import Game
 from pygame import draw, display
 
 # Initialize pygame
@@ -9,7 +10,7 @@ clock = pygame.time.Clock()
 FPS = 60
 
 #init Game
-game = Game()
+game = Game.Game()
 
 
 #update display
@@ -20,9 +21,11 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:  # ✅ handles close button 
             running = False
-    
+            
+    game.visualizer.draw()
+    game.reporter.report()
 
-    display.flip()
+    #display.flip()
 
 
 pygame.quit()
