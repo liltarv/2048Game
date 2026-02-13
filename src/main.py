@@ -25,7 +25,6 @@ while running:
             game.handleKeyBoardInput(event)
             
     game.visualizer.draw()
-    game.reporter.report()
 
     display.flip()
 

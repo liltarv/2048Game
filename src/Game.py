@@ -4,6 +4,8 @@ import Controller
 import Visualizer
 import Simulator
 import Reporter
+import pygame
+import Direction
 
 class Game:
     def __init__(self):
@@ -16,12 +18,15 @@ class Game:
     
     def handleKeyBoardInput(self, event):
         key_to_direction = {
-            event.key.UP: self.globals.DIRECTION_UP,
-            event.key.DOWN: self.globals.DIRECTION_DOWN,
-            event.key.LEFT: self.globals.DIRECTION_LEFT,
-            event.key.RIGHT: self.globals.DIRECTION_RIGHT,
+            pygame.K_UP: Direction.Direction.UP,
+            pygame.K_DOWN: Direction.Direction.DOWN,
+            pygame.K_LEFT: Direction.Direction.LEFT,
+            pygame.K_RIGHT: Direction.Direction.RIGHT,
         }
         if (event.key in key_to_direction):
-            self.controller.move(key_to_direction[event.key])
-            self.board.fillEmptySquares(1)
+            self.reporter.report_input_info(key_to_direction[event.key])
+            moved = self.controller.move(key_to_direction[event.key])
+            if moved:
+                self.board.fillEmptySquares(1)
+            self.reporter.report_on_move()
         
