@@ -2,6 +2,7 @@ import random
 import Direction 
 import Controller
 import Reporter
+import Strategy
 
 class Board:
     #The board is a 1d list of ints of length vars.BOARD_ROWS * vars.BOARD_COLS, where the 2^n value of the int is the value of the square. 
@@ -64,6 +65,19 @@ class Board:
             currDirection = currDirection.adjacent_90()
         return not canMove
 
+    def placeTileInWorstPossibleSpot(self):
+        worstScore = float('inf')
+        worstInd = None
+        for ind in self.getEmptySquareInds():
+            board_copy = Board(self.vars, self.boardList.copy())
+            board_copy.boardList[ind] = 1
+            strategy = Strategy.Strategy(board_copy)
+            score = strategy.heuristic_evaluation(board_copy)
+            if (score < worstScore):
+                worstScore = score
+                worstInd = ind
+        if worstInd != None:
+            self.boardList[worstInd] = 1
 
     
     

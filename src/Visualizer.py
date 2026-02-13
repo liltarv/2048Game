@@ -22,7 +22,7 @@ class Visualizer:
     def drawGameOverScreen(self):
         font = pygame.font.SysFont(self.vars.FONT_NAME, self.vars.GAME_OVER_FONT_SIZE)
         text = font.render("Game Over!", True, self.vars.GAME_OVER_FONT_COLOR)
-        text_rect = text.get_rect(center=(self.vars.SCREEN_WIDTH // 2, self.vars.SCREEN_HEIGHT // 2))
+        text_rect = text.get_rect(center=(self.vars.WINDOW_RES_X // 2, self.vars.WINDOW_RES_Y // 2))
         self.vars.screen.blit(text, text_rect)
     
     def drawTileValue(self, value, row, col):
