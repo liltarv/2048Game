@@ -28,4 +28,7 @@ class Globals:
         self.FONT_SIZE = 40
         self.FONT_COLOR = (119, 110, 101)
         self.BOARD_PADDING = 10
-        self.TILE_SIZE = (self.WINDOW_RES_X - (self.BOARD_COLS + 1) * self.BOARD_PADDING) // self.BOARD_COLS    
+        self.TILE_SIZE = (self.WINDOW_RES_X - (self.BOARD_COLS + 1) * self.BOARD_PADDING) // self.BOARD_COLS 
+        self.GAME_OVER = False
+        self.GAME_OVER_FONT_SIZE = 80
+        self.GAME_OVER_FONT_COLOR = (255, 0, 0)   

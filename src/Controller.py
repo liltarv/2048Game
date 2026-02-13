@@ -2,8 +2,9 @@ from collections import defaultdict
 
 class Controller:
     
-    def __init__(self, board):
+    def __init__(self, board, reporter):
         self.board = board
+        self.reporter = reporter
 
     def move(self, direction):
         moved = False
@@ -21,6 +22,8 @@ class Controller:
                  self.board.boardList[moveLoc_1D] = self.board.boardList[curr_1D_ind] if self.board.boardList[moveLoc_1D] == 0 else self.board.boardList[moveLoc_1D] + 1
                  self.board.boardList[curr_1D_ind] = 0
                  moved = True
+        if self.reporter != None and moved:
+            self.reporter.report_on_move(direction)
         return moved
 
     

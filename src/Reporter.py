@@ -2,7 +2,8 @@ class Reporter:
     def __init__(self, board):
         self.board = board
     
-    def report_on_move(self):
+    def report_on_move(self, direction):
+        print(f"Moved {direction}")
         print("Current Board State:")
         #print current board
         for i in range(self.board.vars.BOARD_ROWS):

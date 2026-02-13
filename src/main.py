@@ -23,17 +23,8 @@ while running:
             running = False
         elif event.type == pygame.KEYDOWN:  
             game.handleKeyBoardInput(event)
-            
-    game.visualizer.draw()
 
+    game.tick_handler()        
     display.flip()
-
-'''
-Traceback (most recent call last):
-  File "/workspaces/2048Game/src/main.py", line 25, in <module>
-    game.handleKeyBoardInput(event)
-  File "/workspaces/2048Game/src/Game.py", line 19, in handleKeyBoardInput
-    event.key.UP: self.globals.DIRECTION_UP
-'''
 
 pygame.quit()

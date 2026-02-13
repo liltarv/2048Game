@@ -1,4 +1,7 @@
 import random
+import Direction 
+import Controller
+import Reporter
 
 class Board:
     #The board is a 1d list of ints of length vars.BOARD_ROWS * vars.BOARD_COLS, where the 2^n value of the int is the value of the square. 
@@ -47,6 +50,20 @@ class Board:
         row = index // self.vars.BOARD_COLS
         col = index % self.vars.BOARD_COLS
         return (row, col)
+
+    def noAvailableMoves(self):
+        canMove = False
+        #iterate through each direction and see if a move is possible
+        currDirection = Direction.Direction.UP
+        for _ in range(4):
+            board_copy = Board(self.vars, self.boardList.copy())
+            controller = Controller.Controller(board_copy, None)
+            if (controller.move(currDirection)):
+                canMove = True
+                break
+            currDirection = currDirection.adjacent_90()
+        return not canMove
+
 
     
     

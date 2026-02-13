@@ -14,7 +14,16 @@ class Visualizer:
                 if value != 0:
                     pygame.draw.rect(self.vars.screen, self.vars.TILE_COLORS[2**value], self.getTileRect(row, col))
                     self.drawTileValue(2**value, row, col)
+        
+        if (self.vars.GAME_OVER):
+            self.drawGameOverScreen()
         pygame.display.flip()
+    
+    def drawGameOverScreen(self):
+        font = pygame.font.SysFont(self.vars.FONT_NAME, self.vars.GAME_OVER_FONT_SIZE)
+        text = font.render("Game Over!", True, self.vars.GAME_OVER_FONT_COLOR)
+        text_rect = text.get_rect(center=(self.vars.SCREEN_WIDTH // 2, self.vars.SCREEN_HEIGHT // 2))
+        self.vars.screen.blit(text, text_rect)
     
     def drawTileValue(self, value, row, col):
         font = pygame.font.SysFont(self.vars.FONT_NAME, self.vars.FONT_SIZE)
