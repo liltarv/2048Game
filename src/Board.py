@@ -79,5 +79,26 @@ class Board:
         if worstInd != None:
             self.boardList[worstInd] = 1
 
+    def placeTileInBestPossibleSpot(self):
+        bestScore = float('-inf')
+        bestInd = None
+        for ind in self.getEmptySquareInds():
+            board_copy = Board(self.vars, self.boardList.copy())
+            board_copy.boardList[ind] = 1
+            strategy = Strategy.Strategy(board_copy)
+            score = strategy.heuristic_evaluation(board_copy)
+            if (score > bestScore):
+                bestScore = score
+                bestInd = ind
+        if bestInd != None:
+            self.boardList[bestInd] = 1
+    
+    def getHighestTileValue(self):
+        highestTileValue = 0
+        for tile in self.boardList:
+            if tile > highestTileValue:
+                highestTileValue = tile
+        return highestTileValue
+
     
     

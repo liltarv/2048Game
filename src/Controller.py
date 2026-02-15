@@ -22,9 +22,21 @@ class Controller:
                  self.board.boardList[moveLoc_1D] = self.board.boardList[curr_1D_ind] if self.board.boardList[moveLoc_1D] == 0 else self.board.boardList[moveLoc_1D] + 1
                  self.board.boardList[curr_1D_ind] = 0
                  moved = True
-        if self.reporter != None and moved:
-            self.reporter.report_on_move(direction)
+        #if self.reporter != None and moved:
+            #self.reporter.report_on_move(direction)
         return moved
+
+    def canMove(self, direction):
+        for a in range (direction.adjacent_90().get_endpoint(self.board), direction.adjacent_90().opposite().get_endpoint(self.board) - direction.adjacent_90().get_1D_delta(), -1 * direction.adjacent_90().get_1D_delta()):
+            for b in range(direction.get_endpoint(self.board), direction.opposite().get_endpoint(self.board) - direction.get_1D_delta(), -1 * direction.get_1D_delta()):
+                 moveLoc_1D = self.move_getMoveLoc(direction, a, b, defaultdict(bool))
+                 curr_1D_ind = self.board.index2D_to_1D(b, a) if direction.is_vertical() else self.board.index2D_to_1D(a, b)
+                 if (self.board.boardList[curr_1D_ind] == 0):
+                    continue
+                 if (moveLoc_1D == curr_1D_ind):
+                    continue
+                 return True
+        return False
 
     
 

@@ -9,6 +9,11 @@ class Simulator:
 
     def simulate_one_move(self):
         directionToMoveIn, heuristic = self.strategy.next_move_direction(self.board)
+        if directionToMoveIn == None:
+            return False
         print(f"Simulating move in direction {directionToMoveIn} with heuristic score {heuristic}")
-        return self.controller.move(directionToMoveIn)
+        moved = self.controller.move(directionToMoveIn)
+        #if moved:
+        #    self.strategy.main_strategy.update_heuristic_weights()
+        return moved
     

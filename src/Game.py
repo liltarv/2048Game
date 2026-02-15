@@ -11,6 +11,7 @@ from pygame import display
 
 class Game:
     def __init__(self):
+        self.training_mode = False
         self.globals = Globals.Globals()
         self.board = Board.Board(self.globals)
         self.strategy = Strategy.Strategy(self.board)
@@ -29,6 +30,10 @@ class Game:
             pygame.K_RIGHT: Direction.Direction.RIGHT,
         }
 
+        if (event.key == pygame.K_r):
+            self.reset_game()
+            return
+
         if (event.key == pygame.K_SPACE):
             self.simulator.continuously_simulating = not self.simulator.continuously_simulating
             return 
@@ -40,6 +45,7 @@ class Game:
         if (event.key in key_to_direction):
             self.moved_this_tick = self.controller.move(key_to_direction[event.key])
 
+
     def tick_handler(self):
         if (self.globals.GAME_OVER):
             return
@@ -47,10 +53,13 @@ class Game:
             self.moved_this_tick = self.simulator.simulate_one_move()
         if (self.moved_this_tick):
             self.board.fillEmptySquares(1)
-            self.reporter.print_board()
+            #self.reporter.print_board()
         if (self.board.noAvailableMoves()):
             self.globals.GAME_OVER = True
         self.moved_this_tick = False
         self.visualizer.draw()
         display.flip()
-        
+
+    def reset_game(self):
+        newGame = Game()
+        self.__dict__.update(newGame.__dict__)

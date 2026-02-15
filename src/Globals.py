@@ -32,3 +32,5 @@ class Globals:
         self.GAME_OVER = False
         self.GAME_OVER_FONT_SIZE = 80
         self.GAME_OVER_FONT_COLOR = (255, 0, 0)   
+    
+
