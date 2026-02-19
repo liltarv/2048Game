@@ -14,7 +14,7 @@ class Game:
         self.training_mode = False
         self.globals = Globals.Globals()
         self.board = Board.Board(self.globals)
-        self.strategy = Strategy.Strategy(self.board)
+        self.strategy = Strategy.Strategy(self.board, greedy=True)
         self.reporter = Reporter.Reporter(self.board)
         self.controller = Controller.Controller(self.board, self.reporter)
         self.visualizer = Visualizer.Visualizer(self.board, self.globals)

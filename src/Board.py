@@ -85,7 +85,7 @@ class Board:
         for ind in self.getEmptySquareInds():
             board_copy = Board(self.vars, self.boardList.copy())
             board_copy.boardList[ind] = 1
-            strategy = Strategy.Strategy(board_copy)
+            strategy = Strategy.Strategy(board_copy, None, greedy=True)
             score = strategy.heuristic_evaluation(board_copy)
             if (score > bestScore):
                 bestScore = score
