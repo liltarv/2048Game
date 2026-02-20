@@ -62,7 +62,7 @@ class Strategy:
                 
                 self.heuristic_weights[move_direction] = single_direction_weights
 
-        def update_heuristic_weights(self, move_direction):
+#        def update_heuristic_weights(self, move_direction):
             
 
         #the heuristic evaluation should always be a number from 0 to 1
@@ -90,7 +90,7 @@ class Strategy:
                     section_score /= max_section_score if max_section_score > 0 else 1
 
             return sum(section_scores) / len(section_scores) if section_scores else 0
-                        total_score += section_score
+            total_score += section_score
             return total_score / (self.board.vars.BOARD_ROWS * self.board.vars.BOARD_COLS * max(max(weights) for weights in self.heuristic_weights.values()) * len(self.heuristic_weights))  #normalize the total score to be between 0 and 1 based on the maximum possible heuristic score, which is based on the maximum tile value on the board and the maximum weight value for each square in each section for each move direction.
 
         def next_move_direction(self, board):
@@ -175,7 +175,7 @@ class Strategy:
                     Direction.Direction.RIGHT: None}
                 self.fill_base_heuristic_weights()
             self.threshold = -50  #hyperparameter for counting a section as contributing to the heuristic score
-            self.train(20)  #number of iterations to train the heuristic weights for. Can be adjusted for better performance, but keep in mind that training can take a long time, especially with more iterations.
+            self.train(40)  #number of iterations to train the heuristic weights for. Can be adjusted for better performance, but keep in mind that training can take a long time, especially with more iterations.
 
         def updateOldBoard(self, board):
             self.oldBoard = Board.Board(board.vars, board.boardList.copy())
@@ -249,10 +249,10 @@ class Strategy:
                         tile_value = oldBoard.boardList[self.weightTableIndiciesToBoardIndicies(section_index, square_index)]
                         #print("Good Move" if move_direction == good_move else "Bad Move")
                         if (move_direction == good_move):
-                            new_heuristic_weights[move_direction][section_index][square_index] += learning_rate * score_diff * (tile_value + 1) * (1 if tile_value != 0 else -1) #the tile value is added to the score difference to give more weight to higher value tiles in the learning process, since merges that involve higher value tiles tend to have a bigger impact on the score change and overall game outcome. Adding 1 to the tile value ensures that even empty squares (with a tile value of 0) can still contribute to the weight adjustments, albeit with less influence than squares with higher tile values.
+                            new_heuristic_weights[move_direction][section_index][square_index] *= 2#learning_rate * score_diff * (tile_value + 1) * (1 if tile_value != 0 else -1) #the tile value is added to the score difference to give more weight to higher value tiles in the learning process, since merges that involve higher value tiles tend to have a bigger impact on the score change and overall game outcome. Adding 1 to the tile value ensures that even empty squares (with a tile value of 0) can still contribute to the weight adjustments, albeit with less influence than squares with higher tile values.
                         else:
-                            new_heuristic_weights[move_direction][section_index][square_index] -= learning_rate * score_diff * (tile_value + 1) * (1 if tile_value != 0 else -1)
-                            new_heuristic_weights[good_move][section_index][square_index] += learning_rate * score_diff * (tile_value + 1)  * (1 if tile_value != 0 else -1) #also adjust the weights for the greedy move direction in the opposite direction to further encourage the algorithm to learn heuristics that lead to better score outcomes. If the move we made is a bad move, then we want to decrease the weights for that move direction and increase the weights for the greedy move direction to encourage the algorithm to learn heuristics that lead to better score outcomes.
+                            new_heuristic_weights[move_direction][section_index][square_index] *= 0.5#learning_rate * score_diff * (tile_value + 1) * (1 if tile_value != 0 else -1)
+                            new_heuristic_weights[good_move][section_index][square_index] *= 2#learning_rate * score_diff * (tile_value + 1)  * (1 if tile_value != 0 else -1) #also adjust the weights for the greedy move direction in the opposite direction to further encourage the algorithm to learn heuristics that lead to better score outcomes. If the move we made is a bad move, then we want to decrease the weights for that move direction and increase the weights for the greedy move direction to encourage the algorithm to learn heuristics that lead to better score outcomes.
             self.heuristic_weights = new_heuristic_weights
             
 
@@ -413,6 +413,7 @@ class Strategy:
 
         
         def next_move_direction(self, board):
+            numEmptyTiles = len(board.getEmptySquareInds())
             return self.greedy_search(board, 3)
 
         def printHeuristicWeights(self):
@@ -450,6 +451,6 @@ class Strategy:
             total = 0
             for i in range(len(board.boardList)):
                 total += (board.boardList[i]) * (self.heuristic_weights_1d[i])
-            return total
+            return total + len(board.getEmptySquareInds()) * total**0.5 if total > 0 else total  #add a bonus for having more empty tiles, to encourage the algorithm to learn heuristics that lead to more empty tiles on the board, which can lead to better score outcomes in the long run. The bonus is based on the number of empty tiles multiplied by a large constant (in this case, 4^16) to ensure that it has a significant impact on the heuristic evaluation and encourages the algorithm to prioritize keeping the board open and having more empty tiles.
         
         
