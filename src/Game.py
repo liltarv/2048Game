@@ -7,6 +7,8 @@ import Reporter
 import pygame
 import Direction
 import Strategy
+import Science
+import copy
 from pygame import display
 
 class Game:
@@ -19,6 +21,7 @@ class Game:
         self.controller = Controller.Controller(self.board, self.reporter)
         self.visualizer = Visualizer.Visualizer(self.board, self.globals)
         self.simulator = Simulator.Simulator(self.board, self.controller, self.strategy)
+        self.science = Science.Science(copy.copy(self.simulator)) #shallow copy is fine since we only read from the simulator in science, we never modify it
         
         self.moved_this_tick = False
     
@@ -29,6 +32,13 @@ class Game:
             pygame.K_LEFT: Direction.Direction.LEFT,
             pygame.K_RIGHT: Direction.Direction.RIGHT,
         }
+
+        if (event.key == pygame.K_e):
+            #experiment with science
+            #deepCopy the game
+            dummySimulator = copy.copy(self.simulator)
+            self.science = Science.Science(dummySimulator)   
+            self.science.profile(10)
 
         if (event.key == pygame.K_r):
             self.reset_game()
@@ -47,6 +57,7 @@ class Game:
 
 
     def tick_handler(self):
+        #print("e")
         if (self.globals.GAME_OVER):
             return
         if (self.simulator.continuously_simulating):
