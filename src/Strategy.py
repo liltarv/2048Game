@@ -414,7 +414,7 @@ class Strategy:
         
         def next_move_direction(self, board):
             numEmptyTiles = len(board.getEmptySquareInds())
-            return self.greedy_search(board, 3)
+            return self.greedy_search(board, 1)
 
         def printHeuristicWeights(self):
             print("Current Heuristic Weights:")

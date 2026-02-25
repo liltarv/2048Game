@@ -39,6 +39,7 @@ class Game:
             dummySimulator = copy.copy(self.simulator)
             self.science = Science.Science(dummySimulator)   
             self.science.profile(10)
+            return
 
         if (event.key == pygame.K_r):
             self.reset_game()
