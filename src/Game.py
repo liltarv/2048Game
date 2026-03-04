@@ -21,7 +21,7 @@ class Game:
         self.controller = Controller.Controller(self.board, self.reporter)
         self.visualizer = Visualizer.Visualizer(self.board, self.globals)
         self.simulator = Simulator.Simulator(self.board, self.controller, self.strategy)
-        self.science = Science.Science(copy.copy(self.simulator)) #shallow copy is fine since we only read from the simulator in science, we never modify it
+        self.science = Science.Science(self.board) 
         
         self.moved_this_tick = False
     
@@ -36,9 +36,7 @@ class Game:
         if (event.key == pygame.K_e):
             #experiment with science
             #deepCopy the game
-            dummySimulator = copy.copy(self.simulator)
-            self.science = Science.Science(dummySimulator)   
-            self.science.profile(10)
+            self.science.run(10)
             return
 
         if (event.key == pygame.K_r):
