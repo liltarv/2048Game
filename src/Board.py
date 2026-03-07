@@ -12,7 +12,10 @@ class Board:
         self.boardList = base_board
         if (self.boardList == None):
             self.generate_startBoardList()
-        
+
+    #def __getitem__(self):
+
+
 
     '''INIT BOARD LOGIC'''
 

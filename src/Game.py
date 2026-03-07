@@ -20,8 +20,8 @@ class Game:
         self.reporter = Reporter.Reporter(self.board)
         self.controller = Controller.Controller(self.board, self.reporter)
         self.visualizer = Visualizer.Visualizer(self.board, self.globals)
-        self.simulator = Simulator.Simulator(self.board, self.controller, self.strategy)
-        self.science = Science.Science(self.board) 
+        self.simulator = Simulator.Simulator(self.board, self.controller, self.strategy, self.reporter)
+        self.science = Science.Science(self.board, self.reporter) 
         
         self.moved_this_tick = False
     
@@ -36,7 +36,8 @@ class Game:
         if (event.key == pygame.K_e):
             #experiment with science
             #deepCopy the game
-            self.science.run(10)
+            print("profiling")
+            self.science.profile(3, False)
             return
 
         if (event.key == pygame.K_r):
@@ -61,7 +62,7 @@ class Game:
             return
         if (self.simulator.continuously_simulating):
             self.moved_this_tick = self.simulator.simulate_one_move()
-        if (self.moved_this_tick):
+        if (self.moved_this_tick and not self.simulator.continuously_simulating):
             self.board.fillEmptySquares(1)
             #self.reporter.print_board()
         if (self.board.noAvailableMoves()):

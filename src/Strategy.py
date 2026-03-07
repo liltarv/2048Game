@@ -8,7 +8,7 @@ import copy
 
 class Strategy:
 
-    def __init__(self, board, heuristic_weights=None, greedy=False):
+    def __init__(self, board, heuristic_weights=None, greedy=True):
         self.board = board
         if greedy:
             self.main_strategy = self.Greedy(board, heuristic_weights)
@@ -414,7 +414,8 @@ class Strategy:
         
         def next_move_direction(self, board):
             numEmptyTiles = len(board.getEmptySquareInds())
-            return self.greedy_search(board, 1)
+            direction, predHeuristic = self.greedy_search(board, 3)
+            return (direction, predHeuristic, 3)
 
         def printHeuristicWeights(self):
             print("Current Heuristic Weights:")

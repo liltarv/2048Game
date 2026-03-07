@@ -7,25 +7,13 @@ class Direction(Enum):
     RIGHT = auto()
 
     def opposite(self):
-        opposites = {
-            Direction.UP: Direction.DOWN,
-            Direction.DOWN: Direction.UP,
-            Direction.LEFT: Direction.RIGHT,
-            Direction.RIGHT: Direction.LEFT,
-        }
         return opposites[self]
     
     def adjacent_90(self):
-        adjacent_90s = {
-            Direction.UP: Direction.LEFT,
-            Direction.RIGHT: Direction.UP,
-            Direction.DOWN: Direction.RIGHT,
-            Direction.LEFT: Direction.DOWN,
-        }
         return adjacent_90s[self]
     
     def is_vertical(self):
-        return self in {Direction.UP, Direction.DOWN}
+        return self == Direction.UP or self == Direction.DOWN
     
     def get_endpoint(self, board):
         if (self.is_vertical()):
@@ -34,11 +22,25 @@ class Direction(Enum):
             return 0 if self == Direction.LEFT else board.vars.BOARD_COLS - 1
 
     def get_1D_delta(self):
-        deltas = {
-            Direction.UP: -1,
-            Direction.DOWN: 1,
-            Direction.LEFT: -1,
-            Direction.RIGHT: 1,
-        }
         return deltas[self]
 
+opposites = {
+    Direction.UP: Direction.DOWN,
+    Direction.DOWN: Direction.UP,
+    Direction.LEFT: Direction.RIGHT,
+    Direction.RIGHT: Direction.LEFT,
+}
+
+adjacent_90s = {
+    Direction.UP: Direction.LEFT,
+    Direction.RIGHT: Direction.UP,
+    Direction.DOWN: Direction.RIGHT,
+    Direction.LEFT: Direction.DOWN,
+}
+
+deltas = {
+    Direction.UP: -1,
+    Direction.DOWN: 1,
+    Direction.LEFT: -1,
+    Direction.RIGHT: 1,
+}
