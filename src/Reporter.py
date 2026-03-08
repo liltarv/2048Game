@@ -10,12 +10,14 @@ class Reporter:
             print(row)
 
     def collect_data(self, simulator):
-        self.reportingdata = [
+        self.reportingdata = [ 
             simulator.gameNum,
             simulator.moveNum,
             simulator.deltaTime,
+            simulator.totalTime,
             simulator.predHeuristic,
             simulator.currHeuristic,
+            simulator.maxTile,
             simulator.lookahead
         ]
     
@@ -23,11 +25,19 @@ class Reporter:
     def output_eachGame_data(self, datatable):
         print("outputting data")
         with open("eachGame.txt", "w") as f:
-            print("Game Number,Move Number,Time Taken, Predicted Heuristic, Current Heuristic, Lookahead", file=f)
+            print("Game Number,Move Number,Time Taken,Total Time,Predicted Heuristic,Current Heuristic,Maximum Tile,Lookahead", file=f)
             for gameNum in datatable.keys():
                 for moveNum in datatable[gameNum].keys():
-                    deltaTime, pHeuristic, cHeuristic, lookahead = tuple(datatable[gameNum][moveNum])
-                    print(f"{gameNum},{moveNum},{deltaTime},{pHeuristic},{cHeuristic},{lookahead}", file=f)
+                    deltaTime, totalTime, pHeuristic, cHeuristic, maxTile, lookahead = tuple(datatable[gameNum][moveNum])
+                    print(f"{gameNum},{moveNum},{deltaTime},{totalTime},{pHeuristic},{cHeuristic},{maxTile},{lookahead}", file=f)
+
+    def output_aggregate_data(self, datatable):
+        print("outputting aggregate data")
+        with open("aggregateData.txt", "w") as f:
+            print("Game Number,Number of Moves,Total Time,Predicted Heuristic,Current Heuristic,Maximum Tile,Average Lookahead", file=f)
+            for gameNum in datatable.keys():
+                numMoves, deltaTime, totalTime, pHeuristic, cHeuristic, maxTile, lookahead = tuple(datatable[gameNum])
+                print(f"{gameNum},{numMoves},{totalTime},{pHeuristic},{cHeuristic},{maxTile},{lookahead}", file=f)
 
     def report_on_move(self, direction):
         print(f"Moved {direction}")

@@ -37,7 +37,7 @@ class Game:
             #experiment with science
             #deepCopy the game
             print("profiling")
-            self.science.profile(3, False)
+            self.science.profile(20, False)
             return
 
         if (event.key == pygame.K_r):

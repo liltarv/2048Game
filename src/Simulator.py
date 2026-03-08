@@ -14,6 +14,8 @@ class Simulator:
         self.predHeuristic = 0
         self.lookahead = 0
         self.currHeuristic = 0
+        self.maxTile = self.board.getHighestTileValue()
+        self.totalTime = 0
 
     def simulate_one_move(self, printPerMove=False):
         self.moveNum += 1
@@ -23,7 +25,9 @@ class Simulator:
             return False
         endtime = time.time()
         self.deltaTime = endtime - starttime
+        self.totalTime += self.deltaTime
         self.currHeuristic = self.strategy.main_strategy.heuristic_evaluation(self.board)
+        self.maxTile = self.board.getHighestTileValue()
         if (self.reporter != None):
             self.reporter.collect_data(self)
         if printPerMove: 

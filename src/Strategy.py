@@ -407,15 +407,24 @@ class Strategy:
                  self.fill_base_heuristic_weights_1d()
 
         #Heuristic weights for the 4x4 board, starting from top left and going row by row. Higher weights in the top left corner to encourage keeping high value tiles there.
-        #powers of 4
+        #powers of 4           
+        #comment 1
         def fill_base_heuristic_weights_1d(self):
             self.heuristic_weights_1d = [(4)**15, (4)**14, (4)**13, (4)**12, (4)**8, (4)**9, (4)**10, (4)**11, (4)**7, (4)**6, (4)**5, (4)**4, (4)**0, (4)**1, (4)**2, (4)**3]
 
-        
+        def determineLookahead(self):
+            numEmptyTiles = len(self.board.getEmptySquareInds())
+            if (numEmptyTiles < 3):
+                return 7
+            if (numEmptyTiles < 5):
+                return 5
+            else:
+                return 3
+    
         def next_move_direction(self, board):
-            numEmptyTiles = len(board.getEmptySquareInds())
-            direction, predHeuristic = self.greedy_search(board, 3)
-            return (direction, predHeuristic, 3)
+            lookahead = self.determineLookahead()
+            direction, predHeuristic = self.greedy_search(board, lookahead)
+            return (direction, predHeuristic, lookahead)
 
         def printHeuristicWeights(self):
             print("Current Heuristic Weights:")
@@ -452,6 +461,6 @@ class Strategy:
             total = 0
             for i in range(len(board.boardList)):
                 total += (board.boardList[i]) * (self.heuristic_weights_1d[i])
-            return total + len(board.getEmptySquareInds()) * total**0.5 if total > 0 else total  #add a bonus for having more empty tiles, to encourage the algorithm to learn heuristics that lead to more empty tiles on the board, which can lead to better score outcomes in the long run. The bonus is based on the number of empty tiles multiplied by a large constant (in this case, 4^16) to ensure that it has a significant impact on the heuristic evaluation and encourages the algorithm to prioritize keeping the board open and having more empty tiles.
+            return total #add a bonus for having more empty tiles, to encourage the algorithm to learn heuristics that lead to more empty tiles on the board, which can lead to better score outcomes in the long run. The bonus is based on the number of empty tiles multiplied by a large constant (in this case, 4^16) to ensure that it has a significant impact on the heuristic evaluation and encourages the algorithm to prioritize keeping the board open and having more empty tiles.
         
         
